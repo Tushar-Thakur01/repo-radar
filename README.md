@@ -2,7 +2,15 @@
 
 > **Discover what's trending. Understand why. Explore open source with AI.**
 
-RepoRadar is an open-source GitHub intelligence platform that automatically crawls repositories, tracks star velocity with point-in-time snapshots, generates AI architectural breakdowns, provides a factual conversational assistant, and runs its own **genuine Model Context Protocol (MCP) server** over stdio.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-repo--radar--alpha.vercel.app-blue?style=for-the-badge&logo=vercel)](https://repo-radar-alpha.vercel.app)
+[![Neon Database](https://img.shields.io/badge/Database-Neon%20PostgreSQL-00E599?style=for-the-badge&logo=postgresql)](https://neon.tech)
+[![MCP Compliant](https://img.shields.io/badge/MCP-Protocol%20v1.0-orange?style=for-the-badge)](https://repo-radar-alpha.vercel.app/mcp)
+
+RepoRadar is an open-source GitHub intelligence platform that automatically crawls repositories, tracks star velocity with point-in-time snapshots, generates AI architectural breakdowns, provides a factual conversational assistant, and runs its own **genuine Model Context Protocol (MCP) server** with interactive web testing.
+
+🚀 **Live Application:** [https://repo-radar-alpha.vercel.app](https://repo-radar-alpha.vercel.app)  
+🔌 **Interactive MCP Console:** [https://repo-radar-alpha.vercel.app/mcp](https://repo-radar-alpha.vercel.app/mcp)  
+📊 **GraphQL Playground:** [https://repo-radar-alpha.vercel.app/api/graphql](https://repo-radar-alpha.vercel.app/api/graphql)
 
 ---
 
@@ -24,7 +32,7 @@ RepoRadar is an open-source GitHub intelligence platform that automatically craw
 
 - **Frontend:** Next.js 16 (App Router), TypeScript, Tailwind CSS v4, Lucide Icons, Recharts
 - **Backend API:** GraphQL Yoga (`/api/graphql`), Next.js Route Handlers
-- **Database & ORM:** SQLite (`prisma/dev.db`), Prisma 6
+- **Database & ORM:** Neon Serverless PostgreSQL (Production) / SQLite (Local), Prisma 6
 - **MCP Server:** `@modelcontextprotocol/sdk` (Stdio transport)
 - **AI Engine:** Ollama (`llama3.2`) + Heuristic Architecture Engine
 - **Testing & Verification:** Vitest (`npm test`), TypeScript (`tsc --noEmit`), MCP Client verification (`mcp-server/verify.ts`)
@@ -105,6 +113,9 @@ Add the following to your `claude_desktop_config.json`:
 7. `find_repositories_by_topic`: Discover repositories matching an ecosystem tag.
 8. `get_trending_topics`: Most frequent topics across monitored repositories.
 9. `get_language_statistics`: Language market share and percentages.
+
+### 🌐 Live MCP Web Inspector
+You don't need to install any local tools to experience the MCP server! Test all 9 tools directly in your browser using our interactive console at [https://repo-radar-alpha.vercel.app/mcp](https://repo-radar-alpha.vercel.app/mcp) with real-time JSON-RPC 2.0 inspectability. Remote HTTP clients can also post requests directly to `https://repo-radar-alpha.vercel.app/api/mcp`.
 
 ---
 
