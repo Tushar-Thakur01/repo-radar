@@ -1,0 +1,121 @@
+// Prisma schema for RepoRadar
+// Configured for SQLite in local development (zero server setup)
+// Can be switched to PostgreSQL for production by changing provider and DATABASE_URL
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Repository {
+  id              String            @id @default(cuid())
+  githubId        Int               @unique
+  fullName        String            @unique // e.g. "facebook/react"
+  owner           String
+  name            String
+  description     String?
+  url             String
+  homepage        String?
+  stars           Int               @default(0)
+  forks           Int               @default(0)
+  openIssues      Int               @default(0)
+  watchers        Int               @default(0)
+  primaryLanguage String?
+  license         String?
+  defaultBranch   String            @default("main")
+  isArchived      Boolean           @default(false)
+  isFork          Boolean           @default(false)
+  githubCreatedAt DateTime
+  githubUpdatedAt DateTime
+  githubPushedAt  DateTime
+  trendingScore   Float             @default(0.0)
+  starGrowth      Int               @default(0)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Relations
+  topics          RepoTopic[]
+  languages       RepoLanguage[]
+  snapshots       RepoSnapshot[]
+  summary         RepoSummary?
+  releases        RepoRelease[]
+  saved           SavedRepository?
+
+  @@index([stars])
+  @@index([trendingScore])
+  @@index([primaryLanguage])
+}
+
+model RepoTopic {
+  id           String     @id @default(cuid())
+  name         String
+  repositoryId String
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([repositoryId, name])
+  @@index([name])
+}
+
+model RepoLanguage {
+  id           String     @id @default(cuid())
+  name         String
+  bytes        Int        @default(0)
+  repositoryId String
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([repositoryId, name])
+  @@index([name])
+}
+
+model RepoSnapshot {
+  id           String     @id @default(cuid())
+  stars        Int
+  forks        Int
+  openIssues   Int
+  watchers     Int
+  capturedAt   DateTime   @default(now())
+  repositoryId String
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@index([repositoryId, capturedAt])
+}
+
+model RepoSummary {
+  id            String     @id @default(cuid())
+  summary       String
+  architecture  String?
+  keyFeatures   String?
+  useCases      String?
+  limitations   String?
+  beginnerTake  String?
+  modelName     String     @default("heuristic-fallback")
+  isAiGenerated Boolean    @default(false)
+  createdAt     DateTime   @default(now())
+  repositoryId  String     @unique
+  repository    Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+}
+
+model RepoRelease {
+  id           String     @id @default(cuid())
+  tagName      String
+  name         String?
+  publishedAt  DateTime
+  body         String?
+  repositoryId String
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([repositoryId, tagName])
+  @@index([repositoryId, publishedAt])
+}
+
+model SavedRepository {
+  id           String     @id @default(cuid())
+  repositoryId String     @unique
+  notes        String?
+  createdAt    DateTime   @default(now())
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+}

@@ -3,17 +3,39 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "prisma generate && next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:push": "prisma db push",
+    "db:seed": "node prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "mcp:start": "node mcp-server/index.ts",
+    "mcp:verify": "node mcp-server/verify.ts"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.ts"
   },
   "dependencies": {
+    "@graphql-yoga/plugin-graphql-sse": "^4.1.0",
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@prisma/client": "^6.19.3",
+    "clsx": "^2.1.1",
+    "graphql": "^17.1.0",
+    "graphql-yoga": "^6.1.0",
+    "lucide-react": "^1.77.0",
     "next": "16.4.6",
+    "prisma": "^6.19.3",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "recharts": "^3.11.0",
+    "tailwind-merge": "^3.7.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/turbopack": "4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -21,6 +43,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "tailwindcss": "4.3.3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.12"
   }
 }
